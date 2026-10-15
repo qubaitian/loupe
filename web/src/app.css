@@ -1,0 +1,100 @@
+:root {
+  --bg: #1e1e1e;
+  --bg-sidebar: #252526;
+  --bg-activity: #333333;
+  --bg-input: #3c3c3c;
+  --bg-hover: #2a2d2e;
+  --bg-active: #37373d;
+  --border: #3c3c3c;
+  --fg: #cccccc;
+  --fg-dim: #8b8b8b;
+  --accent: #0e639c;
+  --git-modified: #e2c08d;
+  --git-added: #73c991;
+  --git-deleted: #c74e39;
+  --font: 'Maple Mono NF CN', monospace;
+  color-scheme: dark;
+  /* 100vh includes the mobile address bar. svh is the height with that chrome shown. */
+  --app-height: 100svh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  height: var(--app-height);
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--fg);
+  font: 13px/1.4 var(--font);
+}
+
+body.dragging {
+  user-select: none;
+}
+
+body.dragging iframe,
+body.dragging .monaco-editor {
+  pointer-events: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+button.primary {
+  padding: 4px 10px;
+  border-radius: 2px;
+  background: var(--accent);
+  color: #fff;
+}
+
+button.primary:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+input,
+textarea {
+  font: inherit;
+  color: var(--fg);
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 4px 6px;
+  outline: none;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--accent);
+}
+
+.header {
+  flex: none;
+  padding: 10px 12px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--fg-dim);
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+}
+
+.icon:hover {
+  background: var(--bg-hover);
+}

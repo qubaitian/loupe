@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="glass" cx="0.4" cy="0.38" r="0.65">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#c9ecfb"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Handle: short and chunky -->
+  <line x1="45" y1="45" x2="54.5" y2="54.5" stroke="#2b2d42" stroke-width="13" stroke-linecap="round"/>
+  <line x1="45" y1="45" x2="54.5" y2="54.5" stroke="#a0673a" stroke-width="7.5" stroke-linecap="round"/>
+
+  <!-- Glass -->
+  <circle cx="27" cy="27" r="22.5" fill="url(#glass)"/>
+
+  <!-- Gem, plump from the lens -->
+  <g transform="translate(27 28) scale(1.4) translate(-26 -27.5)">
+    <g stroke="#2b2d42" stroke-width="1.9" stroke-linejoin="round">
+      <path d="M19 19 Q26 17.6 33 19 Q36.2 21.6 38 25 Q33.5 32 26 37.5 Q18.5 32 14 25 Q15.8 21.6 19 19 Z" fill="#4cc9f0"/>
+      <path d="M19 19 Q15.8 21.6 14 25 H21 Z" fill="#90e0ef"/>
+      <path d="M23 18.4 L21 25 H31 L29 18.4" fill="#caf0f8"/>
+      <path d="M33 19 Q36.2 21.6 38 25 H31 Z" fill="#4895ef"/>
+      <path d="M21 25 L26 37.5 L31 25 Z" fill="#90e0ef"/>
+      <path d="M31 25 L26 37.5 Q33.5 32 38 25 Z" fill="#4361ee"/>
+      <path d="M19 19 Q26 17.6 33 19 Q36.2 21.6 38 25 Q33.5 32 26 37.5 Q18.5 32 14 25 Q15.8 21.6 19 19 Z" fill="none"/>
+    </g>
+    <path d="M23.4 21.3 L24.8 20.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Lens shine -->
+  <path d="M10.5 19 A18.5 18.5 0 0 1 19 10.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Rim -->
+  <circle cx="27" cy="27" r="23.5" fill="none" stroke="#2b2d42" stroke-width="6"/>
+  <circle cx="27" cy="27" r="23.5" fill="none" stroke="#ffc23d" stroke-width="3"/>
+
+  <!-- Twinkle -->
+  <path d="M57 3.5 Q57.8 7.7 62 8.5 Q57.8 9.3 57 13.5 Q56.2 9.3 52 8.5 Q56.2 7.7 57 3.5 Z" fill="#ffc23d" stroke="#2b2d42" stroke-width="1.4" stroke-linejoin="round"/>
+</svg>
