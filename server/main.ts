@@ -9,7 +9,7 @@ import { registerFiles } from './files.ts';
 import { registerGit } from './git.ts';
 import { Hub } from './hub.ts';
 import { registerSearch } from './search.ts';
-import { registerTerminals } from './terminals.ts';
+import { registerTerminals, terminalDir } from './terminals.ts';
 import { Workspace } from './workspace.ts';
 
 const { values, positionals } = parseArgs({
@@ -36,7 +36,7 @@ function sessionFor(ws: Workspace) {
   const existing = sessions.get(ws.root);
   if (existing) return existing;
   const hub = new Hub();
-  hub.on('workspace.info', () => ({ name: ws.name, root: ws.root }));
+  hub.on('workspace.info', () => ({ name: ws.name, root: ws.root, terminalDir: terminalDir(ws) }));
   const stopWatching = registerFiles(hub, ws);
   registerGit(hub, ws);
   registerSearch(hub, ws);

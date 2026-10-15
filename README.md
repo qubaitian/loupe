@@ -27,6 +27,8 @@ Use port 5173 in development. Visiting `/` without `folder` opens the directory 
 
 Each project has its own files, Git state, search and terminals. A project can be open in only one window at a time, including when opened through a symlink. Opening it in another window moves it there, and the old window offers to take it back. Sessions stay alive until the server stops, so refreshing or returning to a project restores its running terminals. Invalid directories show an error with a link back to the default workspace.
 
+Terminal text is saved to `~/.loupe/terminals/<project path>/<id>.txt` so agents can read it. For example, terminal 1 of `/Users/me/code/app` is saved to `~/.loupe/terminals/Users/me/code/app/1.txt`. The file is kept after the terminal exits.
+
 ## Source notes
 
 Notes for `glue/crates/glue/src/lib.rs` are read from `.agents/glue/crates/glue/src/lib.rs.md` in the workspace. Use `## L12-30` headings to anchor each section to source lines. Open the source file to see its notes beside the editor or diff. Files inside `.agents` do not display additional notes.

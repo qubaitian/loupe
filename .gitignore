@@ -2,4 +2,3 @@ node_modules
 dist
 web/fonts
 .DS_Store
-.agents/terminals

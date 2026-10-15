@@ -202,7 +202,7 @@
       if (start > 0) range = start === end ? `:${start}` : `:${start}-${end}`;
     }
     // Copied before the save finishes: clipboard writes need the key event's user activation.
-    const file = `${wb.workspaceRoot}/.agents/terminals/${inst.id}.txt`;
+    const file = `${wb.terminalDir}/${inst.id}.txt`;
     await Promise.all([copyText(`@${file}${range}`), rpc.call('term.save', { id: inst.id })]);
   }
 

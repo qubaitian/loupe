@@ -1,4 +1,5 @@
 import fsp from 'node:fs/promises';
+import os from 'node:os';
 import path from 'node:path';
 import serialize from '@xterm/addon-serialize';
 import type { SerializeAddon } from '@xterm/addon-serialize';
@@ -82,24 +83,33 @@ function render(screen: HeadlessTerminal) {
   return lines.map((l) => l.trimEnd()).join('\n') + '\n';
 }
 
+/**
+ * Folder for a workspace's terminal files: `~/.loupe/terminals/<workspace root>/`.
+ * It is outside the workspace, so terminal files don't show up in its files, search or Git.
+ */
+export function terminalDir(ws: Workspace) {
+  return path.join(os.homedir(), '.loupe', 'terminals', ws.root);
+}
+
 /** `onExit` runs after a terminal's process has exited and it was removed from `count()`. */
 export function registerTerminals(hub: Hub, ws: Workspace, onExit: () => void) {
   const terms = new Map<number, Term>();
   let nextId = 0;
+  const dir = terminalDir(ws);
 
   /**
-   * Writes the terminal's text to `.agents/terminals/<id>.txt` so an agent can read it.
+   * Writes the terminal's text to `<terminalDir>/<id>.txt` so an agent can read it.
    * Resolves once everything written to the pty so far is in the file.
    */
   const save = (term: Term) => {
     clearTimeout(term.saveTimer);
     term.saveTimer = undefined;
     term.dirtySince = undefined;
-    const file = ws.resolve(`.agents/terminals/${term.id}.txt`);
+    const file = path.join(dir, `${term.id}.txt`);
     // Rendered once the output so far has been parsed.
     const text = new Promise<string>((resolve) => term.screen.write('', () => resolve(render(term.screen))));
     term.saving = term.saving.then(async () => {
-      await fsp.mkdir(path.dirname(file), { recursive: true });
+      await fsp.mkdir(dir, { recursive: true });
       await fsp.writeFile(file, await text);
     }).catch((err) => console.error(`terminal ${term.id}: cannot write ${file}:`, err));
     return term.saving;

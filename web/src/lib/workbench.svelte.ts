@@ -21,6 +21,8 @@ class Workbench {
   reveal = $state<{ path: string; line: number; column: number } | null>(null);
   workspaceName = $state('');
   workspaceRoot = '';
+  /** Absolute folder where the server writes terminal files. */
+  terminalDir = '';
 
   get active(): Tab | null {
     return this.tabs.find((t) => t.key === this.activeKey) ?? null;

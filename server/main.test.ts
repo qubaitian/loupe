@@ -65,6 +65,9 @@ test('URL-selected workspaces keep files, git, events and terminals isolated', {
   await fs.symlink(alpha, alias, 'dir');
   const canonicalAlpha = await fs.realpath(alpha);
   const canonicalBeta = await fs.realpath(beta);
+  // The server writes terminal files under $HOME, so give it its own.
+  const home = path.join(tmp, 'home');
+  await fs.mkdir(home);
 
   const listener = net.createServer();
   listener.listen(0, '127.0.0.1');
@@ -74,6 +77,7 @@ test('URL-selected workspaces keep files, git, events and terminals isolated', {
   const base = `http://127.0.0.1:${port}`;
   const proc = spawn(process.execPath, [path.join(import.meta.dirname, 'main.ts'), alpha, '--port', String(port), '--host', '127.0.0.1'], {
     stdio: ['ignore', 'pipe', 'pipe'],
+    env: { ...process.env, HOME: home },
   });
   t.after(async () => {
     if (proc.exitCode !== null || proc.signalCode !== null) return;
@@ -157,10 +161,12 @@ test('URL-selected workspaces keep files, git, events and terminals isolated', {
     assert.equal((await replaced)[0], 4409);
     assert.equal((await a.call('workspace.info')).root, canonicalAlpha);
     assert.equal((await a.call('term.list'))[0].id, term.id);
-    const file = path.join(alpha, `.agents/terminals/${term.id}.txt`);
+    const file = path.join(home, '.loupe/terminals', canonicalAlpha, `${term.id}.txt`);
+    assert.equal((await a.call('workspace.info')).terminalDir, path.dirname(file));
     // Output is written to the terminal file without anyone asking.
     await eventually(async () => (await fs.readFile(file, 'utf8').catch(() => '')).includes(`LOUPE_CWD=${canonicalAlpha}`));
-    await assert.rejects(fs.stat(path.join(beta, `.agents/terminals/${term.id}.txt`)), { code: 'ENOENT' });
+    await assert.rejects(fs.stat(path.join(home, '.loupe/terminals', canonicalBeta, `${term.id}.txt`)), { code: 'ENOENT' });
+    await assert.rejects(fs.stat(path.join(alpha, '.agents')), { code: 'ENOENT' });
     await a.call('term.input', { id: term.id, data: "printf 'LOUPE_%s\\n' SAVED\n" });
     await eventually(async () => (await a.call('term.list'))[0]?.data.includes('LOUPE_SAVED'));
     await a.call('term.save', { id: term.id });

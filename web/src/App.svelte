@@ -17,9 +17,10 @@
   ];
 
   rpc.onOpen(async () => {
-    const info = await rpc.call<{ name: string; root: string }>('workspace.info');
+    const info = await rpc.call<{ name: string; root: string; terminalDir: string }>('workspace.info');
     wb.workspaceName = info.name;
     wb.workspaceRoot = info.root;
+    wb.terminalDir = info.terminalDir;
     document.title = info.name;
   });
 
